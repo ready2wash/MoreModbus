@@ -19,23 +19,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(MoreModbus C CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}     -Wall -Wextra -pedantic                                                    \
-                                            -pedantic-errors -Wcast-align                                              \
-                                            -Wcast-qual -Wconversion                                                   \
-                                            -Wdisabled-optimization                                                    \
-                                            -Wfloat-equal -Wformat=2                                                   \
-                                            -Werror=init-self -Werror=return-type                                      \
-                                            -Werror=missing-field-initializers -Wmissing-format-attribute              \
-                                            -Wmissing-include-dirs -Wmissing-noreturn                                  \
-                                            -Werror=pointer-arith                                                      \
-                                            -Wno-packed  -Wno-padded -Wredundant-decls                                 \
-                                            -Werror=shadow -Werror=stack-protector                                     \
-                                            -Wstrict-aliasing=2                                                        \
-                                            -Werror=unreachable-code -Wno-unused                                       \
-                                            -Wvariadic-macros                                                          \
-                                            -Wwrite-strings -Werror=non-virtual-dtor")
-
 # Check if the paths for output are set, if not, we can set them ourselves
 if (NOT DEFINED CMAKE_LIBRARY_OUTPUT_DIRECTORY)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
@@ -126,6 +109,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_LIBRARY_INCLUDE_DIRECT
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "$ORIGIN")
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${MOREMODBUS_VERSION_STRING} SOVERSION ${MOREMODBUS_VERSION_MAJOR}.${MOREMODBUS_VERSION_MINOR}.${MOREMODBUS_VERSION_PATCH})
 target_compile_options(${PROJECT_NAME} PUBLIC -Wno-error=overloaded-virtual)
+target_compile_options(${PROJECT_NAME} PRIVATE -pedantic-errors -Werror=return-type -Werror=non-virtual-dtor -Werror=init-self -Werror=shadow -Werror=reorder -Werror=unreachable-code -Werror=implicit-fallthrough)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 add_dependencies(${PROJECT_NAME} libmodbus)
 
 # Tests
